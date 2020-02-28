@@ -10,9 +10,9 @@ from sensitivity_analysis import SENSITIVITY
 
 
 class opt():
-  model_def = "/content/weight-pruning/config/yolov3-hand.cfg"
+  model_def = "/content/weight-pruning/config/yolov3-custom.cfg"
   data_config = "/content/weight-pruning/config/custom.data"
-  model = '/content/weight-pruning/weights/yolov3.weights'
+  model = '/content/weight-pruning/custom-training-weights/yolov3_ckpt_9_02281713.pth'
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

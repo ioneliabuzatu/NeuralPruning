@@ -4,8 +4,7 @@ from test import evaluate
 
 
 class SENSITIVITY:
-    def __init__(self, model, batch_norm_idx, conv_idx, to_prune_idx, testset_path, pruning_percentile,
-                 prune_single_layer):
+    def __init__(self, model, batch_norm_idx, conv_idx, to_prune_idx, testset_path, pruning_percentile, prune_single_layer):
         self.model = model
         self.all_masks = []
         self.num_filters = []
@@ -21,6 +20,8 @@ class SENSITIVITY:
         self.pruned_tmp = None
         self.pruned_modules_modules = None
         self.pruned_final = None
+
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     def weight_prune_layerwise(self):  # , model, layers_ids, pruning_layers):
         if self.prune_single_layer_id != None:
