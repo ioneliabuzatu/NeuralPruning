@@ -59,11 +59,11 @@ if __name__ == "__main__":
     model.apply(weights_init_normal)
 
     # If specified we start from checkpoint
-    if opt.pretrained_weights:
-        if opt.pretrained_weights.endswith(".pth"):
-            model.load_state_dict(torch.load(opt.pretrained_weights))
+    if opt.weights_path:
+        if opt.weights_path.endswith(".pth"):
+            model.load_state_dict(torch.load(opt.weights_path))
         else:
-            model.load_darknet_weights(opt.pretrained_weights)
+            model.load_darknet_weights(opt.weights_path)
 
     _, _, prune_idx = parse_module_defs(model.module_defs)
 
@@ -93,15 +93,10 @@ if __name__ == "__main__":
 
     for epoch in range(opt.epochs):
 
-        # 进入调试模式
-        if os.path.exists(opt.debug_file):
-            import ipdb
-
-            ipdb.set_trace()
-
         model.train()
         start_time = time.time()
 
+        # just tested with sparse regularization
         sr_flag = 0
 
         for batch_i, (_, imgs, targets) in enumerate(dataloader):
@@ -115,7 +110,7 @@ if __name__ == "__main__":
             optimizer.zero_grad()
             loss.backward()
 
-            BNOptimizer.updateBN(sr_flag, model.module_list, opt.s, prune_idx)
+            BNOptimizer.updateBN(sr_flag, model.module_list, 0, prune_idx)
 
             optimizer.step()
 

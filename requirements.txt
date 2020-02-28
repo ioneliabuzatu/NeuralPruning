@@ -3,7 +3,6 @@ tensorboardX
 torch>=1.0
 pillow
 tqdm
-pickle
 matplotlib
 pandas
 numpy

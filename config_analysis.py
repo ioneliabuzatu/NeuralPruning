@@ -16,19 +16,20 @@ class opt():
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = Darknet(opt.model_def).to(device)
+model_origin = Darknet(opt.model_def).to(device)
 
 data_config = parse_data_config(opt.data_config)
 testset_path = data_config["test"]
 class_names = load_classes(data_config["names"])
 
 try:
-  model.load_state_dict(torch.load(opt.model))
+  model_origin.load_state_dict(torch.load(opt.model))
 except:
-  model.load_darknet_weights(opt.model)
+  model_origin.load_darknet_weights(opt.model)
 
-CBL_idx, Conv_idx, prune_idx= prune_utils.parse_module_defs(model.module_defs)
-pruning_percentiles = [5, 10, 20, 30, 40, 50, 60, 70, 80, 88]
+CBL_idx, Conv_idx, prune_idx= prune_utils.parse_module_defs(model_origin.module_defs)
+pruning_percentiles_analysis = [5, 10, 20, 30, 40, 50, 60, 70, 80, 88]
 
+final_pruning_percentiles = []
 
-save_layerwise_accuracy = pd.DataFrame(np.nan, index=CBL_idx, columns=pruning_percentiles)
+save_layerwise_accuracy = pd.DataFrame(np.nan, index=CBL_idx, columns=pruning_percentiles_analysis)

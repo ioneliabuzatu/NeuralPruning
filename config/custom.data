@@ -2,4 +2,4 @@ classes= 1
 train=data/train.txt
 valid=data/valid.txt
 test=data/test.txt
-names=data/hand.names
+names=data/custom.names
