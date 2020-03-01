@@ -13,15 +13,41 @@ Final pruning with the best pick in the plots for mAP for each of the above perc
 Fine tuned the pruned model for 10 epochs. All final average precisions were generated from 103 images.
 
 
-#### scipts
+##### run the sensitivity analysis layer-wise
+```
+python3 run_sensitivity_analysis.py
+```
 
 
-#### Plotting analysis of layerwise weight pruning
+
+##### run and generate the pruned model
+```
+pyhton3 final_pruning.py
+```
+
+
+
+#### check accuracy and compare models
+```
+python3 test.py
+```
+
+
+
+#### Plotting the analysis of layerwise weight pruning
 [![Plots Analysis](data/all_plots_analysis.gif)](data/all_plots_analysis.gif)
+
+
+
+
 
 
 Thresholds per layer
 ![final pruning](data/final_thresholds.png)
+
+
+
+
 
 
 weights | description |
@@ -32,11 +58,18 @@ weights | description |
 
 
 
+
+
+
 | | Parameters | FLOPs | mAP | 
 --- | --- | --- | ---
 Origin | 61.52 M  |  32.76 GMac | [0.715]()
 Pruned | 39.37 M | 25.4 GMac |  0.0864
 Finetuned |39.37 M |25.4 GMac | [0.717]()
+
+
+
+
 
 
 
@@ -119,7 +152,7 @@ conv_103 | 33024 | 33024
 conv_104 | 295424 | 295424
 
 
-### Layerwise baseline model FLOPs 
+### FLOPs per baseline model layer
 
 layer id | GMac (MACs)
 --- | --- 
