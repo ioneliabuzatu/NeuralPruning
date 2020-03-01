@@ -1,5 +1,8 @@
 weights/
 .idea/
+colab_prune.py
+count_flops.py
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

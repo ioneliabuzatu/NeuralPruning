@@ -1,6 +1,5 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-# from config_analysis import pruning_percentiles_analysis
 
 
 def lets_plot(file_analysis):
@@ -11,7 +10,7 @@ def lets_plot(file_analysis):
     """
 
     # x-axis
-    pruning_percentiles_analysis = [5, 10, 20, 30, 40, 50, 60, 70, 80, 88]
+    pruning_percentiles_analysis = (5, 10, 20, 30, 40, 50, 60, 70, 80, 88)
 
     data = pd.read_pickle(file_analysis)
     for index, row in data.iterrows():
@@ -20,22 +19,23 @@ def lets_plot(file_analysis):
         mAPs = [float(map_.split('|')[2]) for map_ in row]
         f1s = [float(f1_.split('|')[3]) for f1_ in row]
 
-        fig, ax = plt.subplots(2, 2)
+        fig, ax = plt.subplots(2,2)
         fig.suptitle(f"conv.{index}")
-        ax[0, 0].plot(mAPs, 'o-', color='red')
-        ax[0, 0].set_xticklabels(pruning_percentiles_analysis)
-        ax[0, 0].set_title('mAP')
 
-        ax[0, 1].plot(recalls, '<-', color='green')
-        ax[0, 1].set_xticklabels(pruning_percentiles_analysis)
+        ax[0,0].plot(pruning_percentiles_analysis,mAPs, 'o-', color='red')
+        ax[0, 0].set_xticks(pruning_percentiles_analysis)
+        ax[0,0].set_title('mAP')
+
+        ax[0, 1].plot(pruning_percentiles_analysis,recalls, '<-', color='green')
+        ax[0, 1].set_xticks(pruning_percentiles_analysis)
         ax[0, 1].set_title('Recall')
 
-        ax[1, 0].plot(precisions, '>-', color='black')
-        ax[1, 0].set_xticklabels(pruning_percentiles_analysis)
+        ax[1, 0].plot(pruning_percentiles_analysis,precisions, '>-', color='black')
+        ax[1, 0].set_xticks(pruning_percentiles_analysis)
         ax[1, 0].set_title('Precision')
 
-        ax[1, 1].plot(f1s, '+-', color='yellow')
-        ax[1, 1].set_xticklabels(pruning_percentiles_analysis)
+        ax[1, 1].plot(pruning_percentiles_analysis,f1s, '+-', color='yellow')
+        ax[1, 1].set_xticks(pruning_percentiles_analysis)
         ax[1, 1].set_title('F1')
 
         plt.tight_layout()

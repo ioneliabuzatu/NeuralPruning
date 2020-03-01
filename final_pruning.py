@@ -3,9 +3,9 @@ from config_analysis import *
 
 def main(conv_bn_layers, pruning_percentiles, conv_only, to_prune_layers):
     print(f"Generating the pruned model with the percentiles: {pruning_percentiles}")
-    sensitivity_start = SENSITIVITY(model=model_origin, conv_bn_layers=conv_bn_layers, Conv_idx=conv_only,
-                                    prune_idx=to_prune_layers, testset_path=testset_path,
-                                    pruning_percentile=final_pruning_percentiles, prune_single_layer=None)
+    sensitivity_start = SENSITIVITY(model=model_origin, batch_norm_idx=conv_bn_layers, conv_idx=conv_only,
+                                    to_prune_idx=to_prune_layers, testset_path=testset_path,
+                                    pruning_percentile=pruning_percentiles, prune_single_layer=None)
     sensitivity_start.weight_prune_layerwise()
     sensitivity_start.build_pruned_model()
     print("Done pruning the model")
@@ -39,6 +39,7 @@ def main(conv_bn_layers, pruning_percentiles, conv_only, to_prune_layers):
 
     # pruned_model_accuracy = [f"{precision_pruned}|{recall_pruned}|{mAP_pruned}|{f1_pruned}"]
     # print(f"Pruned model accuracy:\n{pruned_model_accuracy}")
+    sensitivity_start.save_pruned_model()
 
 
-main(conv_bn_layers=CBL_idx, pruning_percentiles=pruning_percentiles_analysis)
+main(conv_bn_layers=CBL_idx, pruning_percentiles=final_pruning_percentiles, conv_only=Conv_idx, to_prune_layers=prune_idx)

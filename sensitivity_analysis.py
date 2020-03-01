@@ -3,6 +3,7 @@ from utils import prune_utils
 from test import evaluate
 
 
+
 class SENSITIVITY:
     def __init__(self, model, batch_norm_idx, conv_idx, to_prune_idx, testset_path, pruning_percentile, prune_single_layer):
         self.model = model
@@ -54,6 +55,7 @@ class SENSITIVITY:
             self.num_filters.append(remain)
 
     def build_pruned_model(self):
+
         self.modules2masks = {idx: mask for idx, mask in zip(self.batch_norm_idx, self.all_masks)}
         self.pruned_tmp = prune_utils.prune_model_keep_size(self.model, self.to_prune_idx, self.batch_norm_idx,
                                                             self.modules2masks)
@@ -64,8 +66,8 @@ class SENSITIVITY:
             assert self.pruned_modules_modules[id_module]['type'] == 'convolutional'
             self.pruned_modules_modules[id_module]['filters'] = str(new_filters)
 
-        self.pruned_final = Darknet([self.model.hyperparams.copy()] + self.pruned_modules_modules).to(device)
-        prune_utils.init_weights_from_loose_model(self.pruned_tmp, self.pruned_final, self.batch_norm_idx,
+        self.pruned_final = Darknet([self.model.hyperparams.copy()] + self.pruned_modules_modules).to(self.device)
+        prune_utils.init_weights_from_loose_model(self.pruned_final,self.pruned_tmp, self.batch_norm_idx,
                                                   self.conv_idx,
                                                   self.modules2masks)
 
@@ -83,16 +85,16 @@ class SENSITIVITY:
         for layer_id, layer in enumerate(self.pruned_final.module_list):
             if isinstance(layer[0], torch.nn.Conv2d):
                 tot_original_params = self.get_tot_parameters_model(self.model.module_list[layer_id])
-                tot_pruned_params = self.get_tot_parameters_model(self.pruned_tmp.module_list[layer_id])
+                tot_pruned_params = self.get_tot_parameters_model(self.pruned_final.module_list[layer_id])
 
                 params_table.append([f"{layer_id}", f"{tot_original_params}", f"{tot_pruned_params}"])
         # print(AsciiTable(params_table).table)
         return AsciiTable(params_table).table
 
     def save_pruned_model(self):
-        name_cfg = ""
-        name_weights = ""
-        assert name_cfg != "" and name_cfg != ""
+        name_cfg = "/content/weight-pruning/config/pruned.cfg"
+        name_weights = "/content/weight-pruning/pruned.pth"
+        assert name_cfg and name_cfg
         prune_utils.write_cfg(name_cfg, [self.model.hyperparams.copy()] + self.pruned_modules_modules)
         torch.save(self.pruned_tmp.state_dict(), name_weights)
         print("Config and Weights of the model have been saved")
