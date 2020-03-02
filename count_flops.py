@@ -1,5 +1,3 @@
-import torchvision.models as models
-
 from utils.flops_and_params import get_model_complexity_info
 from models import *
 from utils.prune_utils import *
@@ -17,7 +15,6 @@ if __name__ == '__main__':
     except:
         model_origin.load_darknet_weights(model)
 
-    net = models.densenet161()
     # flops, params = get_model_complexity_info(model_origin, (3, 416,416), as_strings=True, print_per_layer_stat=True)
     output_origianl = get_model_complexity_info(model_origin, (3, 416, 416), as_strings=True, print_per_layer_stat=True)
 
