@@ -41,8 +41,6 @@ python3 test.py
 
 
 
-
-Thresholds per layer
 ![final pruning](data/final_thresholds.png)
 
 
