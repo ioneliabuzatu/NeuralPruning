@@ -6,7 +6,7 @@
 
 ### Main Idea:
 The model architecture is based on [PyTorch-YOLOv3](https://github.com/eriklindernoren/PyTorch-YOLOv3).
-Trained the model with the pretrained yolov3.weights on the [hand dataset](link here) for 10 epochs.
+Trained the model with the pretrained yolov3.weights on the [hand dataset](http://www.robots.ox.ac.uk/~vgg/data/hands/) for 10 epochs.
 Run the sensitivity analysis per layer with the following pruning percentiles: [5, 10, 20, 30, 40, 50, 60, 70, 80, 88]
 (above 88 yields a bug in the architecture)
 Final pruning with the best pick in the plots for mAP for each of the above percentiles
