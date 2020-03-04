@@ -5,7 +5,7 @@
 4. Running the pruning process
 
 ### Main Idea:
-The model architecture is based on [PyTorch-YOLOv3](https://github.com/eriklindernoren/PyTorch-YOLOv3).
+The model architecture is based on [PyTorch-YOLOv3](https://github.com/eriklindernoren/PyTorch-YOLOv3) and the attribution of the FLOPs computetion is [sovrasov](https://github.com/sovrasov/flops-counter.pytorch).
 Trained the model with the pretrained yolov3.weights on the [hand dataset](http://www.robots.ox.ac.uk/~vgg/data/hands/) for 10 epochs.
 Run the sensitivity analysis per layer with the following pruning percentiles: [5, 10, 20, 30, 40, 50, 60, 70, 80, 88]
 (above 88 yields a bug in the architecture)
